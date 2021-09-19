@@ -1,8 +1,7 @@
 import { Params, RequestBody } from 'k6/http';
-import { HTTPMethod } from '@/enums/HTTPMethod';
 
 export interface Request {
-  method: HTTPMethod,
+  method: string,
   url: string,
   body?: RequestBody | null,
   params?: Params | null
