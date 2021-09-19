@@ -26,7 +26,7 @@ export const {{ path.operationId }}BatchRequest = {
   params: {}
 }
 
-export const {{ path.operationId }} = ({{ pathParamsToDomainParams(method, path, true) }} additionalParams?: Params) => {
+export const {{ path.operationId }} = ({{ pathParamsToDomainParams(method, path, true) }} additionalParams?: Params): [string, string, StructuredRequestBody, Params] => {
   return [
     injectQueryObject(
       {% if path['x-request-definitions'].query %}query{% else %}{}{% endif %},
