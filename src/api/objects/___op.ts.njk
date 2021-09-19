@@ -1,6 +1,6 @@
 import { Params, StructuredRequestBody } from 'k6/http';
 import { HTTPMethod } from '../../enums/HTTPMethod';
-import pathToUrl from '../../../../../utils/pathToUrl';
+import pathToUrl from '{{ pathToUrl }}';
 import { injectParamsToPath } from '../utils/injectPathParams'
 import { injectQueryObject } from '../utils/injectQueryObject'
 {% set interfaces = importInterfaces(operations) %}
@@ -9,6 +9,7 @@ import {
   {%- endfor %}
 } from '../interfaces';
 
+export const baseUrl = '{{ basePath }}';
 
 {% for op in operations -%}
 {% for method, path in op.path -%}
@@ -19,7 +20,7 @@ import {
  * Description: Log a user into the system
  */
 export const {{ path.operationId }}BatchRequest = {
-  url: pathToUrl('{{ op.path_name  }}'),
+  url: pathToUrl(baseUrl + '{{ op.path_name  }}'),
   method: HTTPMethod.{{ method | lower }},
   body: {},
   params: {}
