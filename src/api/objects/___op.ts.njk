@@ -26,7 +26,7 @@ export const {{ path.operationId }}BatchRequest = {
 }
 
 export const {{ path.operationId }} = ({{ pathParamsToDomainParams(method, path, true) }} additionalParams?: Params) => {
-  return http.request(
+  return [
     injectQueryObject(
       {% if path['x-request-definitions'].query %}query{% else %}{}{% endif %},
       injectParamsToPath(
@@ -37,7 +37,7 @@ export const {{ path.operationId }} = ({{ pathParamsToDomainParams(method, path,
     {{ path.operationId }}BatchRequest.method,
     {% if path['x-request-definitions'].body %}body{% else %}{{ path.operationId }}BatchRequest.body{% endif %} as unknown as StructuredRequestBody,
     additionalParams || {{ path.operationId }}BatchRequest.params,
-  );
+  ];
 };
 
 {% endif %}
