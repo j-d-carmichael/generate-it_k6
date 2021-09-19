@@ -18,7 +18,7 @@ import {
  * Summary: Login
  * Description: Log a user into the system
  */
-export const {{ path.operationId }}BatchRequest: BatchRequest = {
+export const {{ path.operationId }}BatchRequest = {
   url: pathToUrl('{{ op.path_name  }}'),
   method: HTTPMethod.{{ method | lower }},
   body: {},
