@@ -1,0 +1,45 @@
+import http, { BatchRequest, Params, StructuredRequestBody } from 'k6/http';
+import { HTTPMethod } from '../../enums/HTTPMethod';
+import pathToUrl from '../../../../utils/pathToUrl';
+import { injectParamsToPath } from '../utils/injectPathParams'
+import { injectQueryObject } from '../utils/injectQueryObject'
+{% set interfaces = importInterfaces(operations) %}
+import {
+  {% for interface in interfaces -%}{{ interface }},
+  {%- endfor %}
+} from '../interfaces';
+
+
+{% for op in operations -%}
+{% for method, path in op.path -%}
+{% if isValidMethod(method)%}
+/**
+ * Operation ID: loginEmailPost
+ * Summary: Login
+ * Description: Log a user into the system
+ */
+export const {{ path.operationId }}BatchRequest: BatchRequest = {
+  url: pathToUrl('{{ op.path_name  }}'),
+  method: HTTPMethod.{{ method | lower }},
+  body: {},
+  params: {}
+}
+
+export const {{ path.operationId }} = ({{ pathParamsToDomainParams(method, path, true) }} additionalParams?: Params) => {
+  return http.request(
+    injectQueryObject(
+      {% if path['x-request-definitions'].query %}query{% else %}{}{% endif %},
+      injectParamsToPath(
+          {% if path['x-request-definitions'].path %}pathParams{% else %}{}{% endif %},
+          {{ path.operationId }}BatchRequest.url
+      )
+    ),
+    {{ path.operationId }}BatchRequest.method,
+    {% if path['x-request-definitions'].body %}body{% else %}{{ path.operationId }}BatchRequest.body{% endif %} as unknown as StructuredRequestBody,
+    additionalParams || {{ path.operationId }}BatchRequest.params,
+  );
+};
+
+{% endif %}
+{%- endfor %}
+{%- endfor %}
