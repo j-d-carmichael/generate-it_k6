@@ -27,18 +27,18 @@ export const {{ path.operationId }}BatchRequest = {
 }
 
 export const {{ path.operationId }} = ({{ pathParamsToDomainParams(method, path, true) }} additionalParams?: Params): [string, string, StructuredRequestBody, Params] => {
-  return [
-    injectQueryObject(
-      {% if path['x-request-definitions'].query %}query{% else %}{}{% endif %},
-      injectParamsToPath(
-          {% if path['x-request-definitions'].path %}pathParams{% else %}{}{% endif %},
+  return {
+    url: injectQueryObject (
+        {% if path['x-request-definitions'].query %}query {% else %}{}{% endif %},
+        injectParamsToPath (
+          {% if path['x-request-definitions'].path %}pathParams {% else %}{}{% endif %},
           {{ path.operationId }}BatchRequest.url
-      )
+        )
     ),
-    {{ path.operationId }}BatchRequest.method,
-    {% if path['x-request-definitions'].body %}body{% else %}{{ path.operationId }}BatchRequest.body{% endif %} as unknown as StructuredRequestBody,
-    additionalParams || {{ path.operationId }}BatchRequest.params,
-  ];
+    method: {{ path.operationId }}BatchRequest.method,
+    body: {% if path['x-request-definitions'].body %}body{% else %}{{ path.operationId }}BatchRequest.body{% endif %} as unknown as StructuredRequestBody,
+    params: additionalParams || {{ path.operationId }}BatchRequest.params,
+  };
 };
 
 {% endif %}
