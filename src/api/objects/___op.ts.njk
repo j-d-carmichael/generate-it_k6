@@ -1,6 +1,6 @@
 import http, { BatchRequest, Params, StructuredRequestBody } from 'k6/http';
 import { HTTPMethod } from '../../enums/HTTPMethod';
-import pathToUrl from '../../../../utils/pathToUrl';
+import pathToUrl from '../../../../../utils/pathToUrl';
 import { injectParamsToPath } from '../utils/injectPathParams'
 import { injectQueryObject } from '../utils/injectQueryObject'
 {% set interfaces = importInterfaces(operations) %}
